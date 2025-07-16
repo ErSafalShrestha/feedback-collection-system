@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-5">
+    <div class="card shadow p-4 mx-auto" style="max-width: 700px;">
+        <h2 class="main-title text-center mb-3">Student Feedback Form</h2>
+        <p class="subtitle text-center mb-4">Welcome! This platform is developed as part of my MSc final year dissertation at the University of the West of Scotland. The goal is to collect valuable feedback from students and teachers to improve the quality of online learning in Nepalese secondary schools.</p>
+        <form method="POST" action="">
+            <!-- Personal Info -->
+            <div class="row mb-3">
+                <div class="col-md-6 mb-3">
+                    <label for="student_name" class="form-label">Name *</label>
+                    <input type="text" class="form-control" id="student_name" name="student_name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="student_class" class="form-label">Class *</label>
+                    <input type="text" class="form-control" id="student_class" name="student_class" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="student_email" class="form-label">Email *</label>
+                    <input type="email" class="form-control" id="student_email" name="student_email" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="student_phone" class="form-label">Phone *</label>
+                    <input type="tel" class="form-control" id="student_phone" name="student_phone" required pattern="[0-9]{10}">
+                </div>
+            </div>
+            <hr>
+            <!-- Closed-ended Questions -->
+            <h5 class="mb-3">Closed-ended Questions</h5>
+            <div class="mb-3">
+                <label class="form-label">1. How satisfied are you with online classes?</label>
+                <select class="form-select" name="q1" required>
+                    <option value="">Select</option>
+                    <option>Very Satisfied</option>
+                    <option>Satisfied</option>
+                    <option>Neutral</option>
+                    <option>Dissatisfied</option>
+                    <option>Very Dissatisfied</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">2. Do you have reliable internet access at home?</label>
+                <select class="form-select" name="q2" required>
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">3. How often do you face technical issues during online classes?</label>
+                <select class="form-select" name="q3" required>
+                    <option value="">Select</option>
+                    <option>Never</option>
+                    <option>Rarely</option>
+                    <option>Sometimes</option>
+                    <option>Often</option>
+                    <option>Always</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">4. Are online classes interactive?</label>
+                <select class="form-select" name="q4" required>
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">5. Do you feel comfortable asking questions online?</label>
+                <select class="form-select" name="q5" required>
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">6. How would you rate the quality of teaching materials?</label>
+                <select class="form-select" name="q6" required>
+                    <option value="">Select</option>
+                    <option>Excellent</option>
+                    <option>Good</option>
+                    <option>Average</option>
+                    <option>Poor</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">7. Are assignments and exams manageable online?</label>
+                <select class="form-select" name="q7" required>
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">8. Do you prefer online or in-person classes?</label>
+                <select class="form-select" name="q8" required>
+                    <option value="">Select</option>
+                    <option>Online</option>
+                    <option>In-person</option>
+                    <option>No Preference</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">9. Do you receive timely feedback from teachers?</label>
+                <select class="form-select" name="q9" required>
+                    <option value="">Select</option>
+                    <option>Always</option>
+                    <option>Often</option>
+                    <option>Sometimes</option>
+                    <option>Rarely</option>
+                    <option>Never</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">10. Would you recommend online learning to others?</label>
+                <select class="form-select" name="q10" required>
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </div>
+            <hr>
+            <!-- Open-ended Questions -->
+            <h5 class="mb-3">Open-ended Questions</h5>
+            <div class="mb-3">
+                <label class="form-label">1. What do you like most about online learning?</label>
+                <textarea class="form-control" name="open_q1" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">2. What challenges do you face during online classes?</label>
+                <textarea class="form-control" name="open_q2" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">3. How has online learning affected your academic performance?</label>
+                <textarea class="form-control" name="open_q3" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">4. What suggestions do you have to improve online learning?</label>
+                <textarea class="form-control" name="open_q4" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">5. How do you stay motivated during online classes?</label>
+                <textarea class="form-control" name="open_q5" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">6. Describe your ideal online learning environment.</label>
+                <textarea class="form-control" name="open_q6" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">7. How do you interact with classmates in online learning?</label>
+                <textarea class="form-control" name="open_q7" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">8. What technology issues have you encountered?</label>
+                <textarea class="form-control" name="open_q8" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">9. How has online learning impacted your social life?</label>
+                <textarea class="form-control" name="open_q9" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">10. Any additional comments or feedback about online learning?</label>
+                <textarea class="form-control" name="open_q10" rows="2" required></textarea>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Submit Feedback</button>
+                <a href="/" class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html> 

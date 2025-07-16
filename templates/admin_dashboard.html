@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Feedback Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    
+   
+    <!-- Login Form Section -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h2 class="mb-0">🔐 Admin Access</h2>
+                    <p class="mb-0 mt-2 opacity-75">Analytics Dashboard Login</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="">
+                        <div class="mb-4">
+                            <label for="admin_password" class="form-label fw-semibold">Admin Password</label>
+                            <input type="password" class="form-control form-control-lg" id="admin_password" name="admin_password" required placeholder="Enter your password">
+                            <small class="form-text text-muted mt-2">
+                                <i class="me-1">💡</i>Default password: <code>admin123</code>
+                            </small>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="me-2">🚀</i>Access Dashboard
+                            </button>
+                        </div>
+                        
+                       
+                      
+                    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+    <!-- Authenticated Dashboard Content -->
+    
+    <!-- Dashboard Header -->
+    <div class="row align-items-center mb-5">
+        <div class="col">
+            <h1 class="main-title mb-2">📊 Analytics Dashboard</h1>
+            <p class="text-muted mb-0">My Final Year Dissertation </p>
+        </div>
+        <div class="col-auto">
+            <a href="/admin/logout" class="btn btn-outline-secondary">
+                <i class="me-2">🚪</i>Logout
+            </a>
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                            <i style="font-size: 2rem;">👨‍🎓</i>
+                        </div>
+                    </div>
+                    <h3 class="display-4 fw-bold text-primary mb-2">Student count </h3>
+                    <p class="text-muted mb-0 fw-semibold">Student Responses</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                            <i style="font-size: 2rem;">👩‍🏫</i>
+                        </div>
+                    </div>
+                    <h3 class="display-4 fw-bold text-success mb-2"> Teacher count </h3>
+                    <p class="text-muted mb-0 fw-semibold">Teacher Responses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts or No Data Section -->
+
+    <!-- Charts Available -->
+    <div class="row g-4 mb-5">
+       
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="me-2">😊</i>Sentiment Analysis
+                    </h5>
+                    <small class="text-muted">Overall emotional tone of responses</small>
+                </div>
+                <div class="card-body p-4">
+                    <img src="data:image/png;base64,{{ charts.sentiment }}" class="img-fluid rounded" alt="Sentiment Analysis Chart">
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="me-2">📈</i>Student Satisfaction
+                    </h5>
+                    <small class="text-muted">Distribution of satisfaction levels</small>
+                </div>
+                <div class="card-body p-4">
+                    <img src="data:image/png;base64,{{ charts.satisfaction }}" class="img-fluid rounded" alt="Student Satisfaction Chart">
+                </div>
+            </div>
+        </div>
+       
+    </div>
+   
+    <!-- No Data Available -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i style="font-size: 4rem; opacity: 0.3;">📊</i>
+                    </div>
+                    <h4 class="mb-3">Dashboard Ready for Analytics</h4>
+                    <p class="text-muted mb-4">No feedback data available yet. Charts and insights will appear once participants submit their responses.</p>
+                    
+                    <div class="bg-light rounded p-4 mb-4">
+                        <h6 class="fw-semibold mb-3">Quick Test Guide:</h6>
+                        <div class="row g-3 text-start">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary rounded-circle me-3">1</span>
+                                    <small>Visit <a href="/" class="text-decoration-none">Home Page</a></small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary rounded-circle me-3">2</span>
+                                    <small>Complete feedback forms</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary rounded-circle me-3">3</span>
+                                    <small>Return for analytics</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="/" class="btn btn-primary">
+                        <i class="me-2">🏠</i>Go to Home Page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

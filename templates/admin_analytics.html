@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Feedback System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    
+    <!-- Dashboard Header -->
+    <div class="row align-items-center mb-5">
+        <div class="col">
+            <h1 class="main-title mb-2">📊 Analytics Dashboard</h1>
+            <p class="text-muted mb-0">Real-time insights from feedback collection system</p>
+        </div>
+        <div class="col-auto">
+            <a href="/admin/logout" class="btn btn-outline-secondary">
+                <i class="me-2">🚪</i>Logout
+            </a>
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                            <i style="font-size: 2rem;">👨‍🎓</i>
+                        </div>
+                    </div>
+                    <h3 class="display-4 fw-bold text-primary mb-2">{{ student_count or 0 }}</h3>
+                    <p class="text-muted mb-0 fw-semibold">Student Responses</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                            <i style="font-size: 2rem;">👩‍🏫</i>
+                        </div>
+                    </div>
+                    <h3 class="display-4 fw-bold text-success mb-2">{{ teacher_count or 0 }}</h3>
+                    <p class="text-muted mb-0 fw-semibold">Teacher Responses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts or No Data Section -->
+    {% if charts and (charts.sentiment or charts.satisfaction) %}
+    <!-- Charts Available -->
+    <div class="row g-4 mb-5">
+        {% if charts.sentiment %}
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="me-2">😊</i>Sentiment Analysis
+                    </h5>
+                    <small class="text-muted">Overall emotional tone of responses</small>
+                </div>
+                <div class="card-body p-4">
+                    <img src="data:image/png;base64,{{ charts.sentiment }}" class="img-fluid rounded" alt="Sentiment Analysis Chart">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if charts.satisfaction %}
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title mb-0 fw-semibold">
+                        <i class="me-2">📈</i>Student Satisfaction
+                    </h5>
+                    <small class="text-muted">Distribution of satisfaction levels</small>
+                </div>
+                <div class="card-body p-4">
+                    <img src="data:image/png;base64,{{ charts.satisfaction }}" class="img-fluid rounded" alt="Student Satisfaction Chart">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <!-- No Data Available -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i style="font-size: 4rem; opacity: 0.3;">📊</i>
+                    </div>
+                    <h4 class="mb-3">Dashboard Ready for Analytics</h4>
+                    <p class="text-muted mb-4">No feedback data available yet. Charts and insights will appear once participants submit their responses.</p>
+                    
+                    <div class="bg-light rounded p-4 mb-4">
+                        <h6 class="fw-semibold mb-3">Quick Test Guide:</h6>
+                        <div class="row g-3 text-start">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary rounded-circle me-3">1</span>
+                                    <small>Visit <a href="/" class="text-decoration-none">Home Page</a></small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary rounded-circle me-3">2</span>
+                                    <small>Complete feedback forms</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary rounded-circle me-3">3</span>
+                                    <small>Return for analytics</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="/" class="btn btn-primary">
+                        <i class="me-2">🏠</i>Go to Home Page
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Download Section -->
+    <div class="row mb-5">
+        <div class="col">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom-0 py-4">
+                    <h3 class="card-title mb-1">📥 Download Data</h3>
+                    <p class="text-muted mb-0">Export feedback data for analysis and reporting</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <!-- Student Data Downloads -->
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-4 h-100">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                        <i style="font-size: 1.5rem;">👨‍🎓</i>
+                                    </div>
+                                    <h5 class="mb-0 fw-semibold">Student Feedback Data</h5>
+                                </div>
+                                <p class="text-muted mb-4">Download complete student responses including sentiment analysis</p>
+                                <div class="d-grid gap-2">
+                                    <a href="/admin/download/students/csv" class="btn btn-outline-primary">
+                                        <i class="me-2">📊</i>Download as CSV
+                                    </a>
+                                    <a href="/admin/download/students/json" class="btn btn-outline-primary">
+                                        <i class="me-2">🔧</i>Download as JSON
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Teacher Data Downloads -->
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-4 h-100">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-success bg-opacity-10 rounded-circle p-2 me-3">
+                                        <i style="font-size: 1.5rem;">👩‍🏫</i>
+                                    </div>
+                                    <h5 class="mb-0 fw-semibold">Teacher Feedback Data</h5>
+                                </div>
+                                <p class="text-muted mb-4">Download complete teacher responses including sentiment analysis</p>
+                                <div class="d-grid gap-2">
+                                    <a href="/admin/download/teachers/csv" class="btn btn-outline-success">
+                                        <i class="me-2">📊</i>Download as CSV
+                                    </a>
+                                    <a href="/admin/download/teachers/json" class="btn btn-outline-success">
+                                        <i class="me-2">🔧</i>Download as JSON
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Download Info -->
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="alert alert-info border-0 bg-info bg-opacity-10">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <i style="font-size: 1.2rem;">ℹ️</i>
+                                    </div>
+                                    <div>
+                                        <h6 class="alert-heading mb-2">Download Information</h6>
+                                        <ul class="mb-0 small">
+                                            <li><strong>CSV Format:</strong> Spreadsheet-friendly format for analysis in Excel, Google Sheets, or statistical software</li>
+                                            <li><strong>JSON Format:</strong> Structured data format for developers and advanced analysis tools</li>
+                                            <li><strong>Includes:</strong> All responses, personal information, sentiment analysis results, and timestamps</li>
+                                            <li><strong>File Names:</strong> Automatically timestamped with download date and time</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="row g-4 mt-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i style="font-size: 2rem; color: #6c757d;">📝</i>
+                    </div>
+                    <h6 class="card-title">Collect More Data</h6>
+                    <p class="text-muted small mb-3">Direct participants to feedback forms</p>
+                    <a href="/" class="btn btn-outline-primary btn-sm">View Forms</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i style="font-size: 2rem; color: #6c757d;">📊</i>
+                    </div>
+                    <h6 class="card-title">Current Session</h6>
+                    <p class="text-muted small mb-3">Total responses: {{ (student_count or 0) + (teacher_count or 0) }}</p>
+                    <button class="btn btn-outline-success btn-sm" onclick="location.reload()">Refresh Data</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3">
+                        <i style="font-size: 2rem; color: #6c757d;">🔒</i>
+                    </div>
+                    <h6 class="card-title">Secure Session</h6>
+                    <p class="text-muted small mb-3">Admin access authenticated</p>
+                    <a href="/admin/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
