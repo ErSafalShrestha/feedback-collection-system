@@ -6,52 +6,149 @@
     <title>Admin Login - Feedback Analytics</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/style.css" rel="stylesheet">
+    <meta name="description" content="Admin login for feedback collection system analytics dashboard">
+    <meta name="theme-color" content="#1e40af">
 </head>
 <body class="bg-light">
-<div class="container py-5">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0">Skip to main content</a>
     
-    <!-- Login Form Only -->
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <h2 class="mb-0">🔐 Admin Access</h2>
-                    <p class="mb-0 mt-2 opacity-75">Analytics Dashboard Login</p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-sm navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a href="/" class="navbar-brand text-primary fw-bold">
+                <i class="me-2">🎓</i>
+                <span class="d-none d-sm-inline">Feedback System</span>
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a href="/" class="nav-link">
+                    <i class="me-1">🏠</i>
+                    <span class="d-none d-sm-inline">Home</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container py-4 py-md-5">
+        <!-- Login Form Section -->
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h1 class="main-title mb-2 text-white">🔐 Admin Access</h1>
+                        <p class="mb-0 mt-2 opacity-75">Analytics Dashboard Login</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="POST" action="" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label for="admin_password" class="form-label fw-semibold">Admin Password</label>
+                                <input type="password" class="form-control form-control-lg" id="admin_password" 
+                                       name="admin_password" required placeholder="Enter your password"
+                                       minlength="6" autocomplete="current-password">
+                                <div class="invalid-feedback">Please enter a valid password (minimum 6 characters).</div>
+                                <small class="form-text text-muted mt-2">
+                                    <i class="me-1">💡</i>Default password: <code>admin123</code>
+                                </small>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">
+                                    <i class="me-2">🚀</i>Access Dashboard
+                                </button>
+                            </div>
+                            
+                            {% if error %}
+                            <div class="alert alert-danger mt-3 mb-0" role="alert">
+                                <i class="me-2">⚠️</i>{{ error }}
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                    <div class="card-footer text-center text-muted py-3 bg-light">
+                        <small>
+                            <i class="me-1">🏠</i>
+                            <a href="/" class="text-decoration-none">Back to Home Page</a>
+                        </small>
+                    </div>
                 </div>
-                <div class="card-body p-4">
-                    <form method="POST" action="">
-                        <div class="mb-4">
-                            <label for="admin_password" class="form-label fw-semibold">Admin Password</label>
-                            <input type="password" class="form-control form-control-lg" id="admin_password" name="admin_password" required placeholder="Enter your password">
-                            <small class="form-text text-muted mt-2">
-                                <i class="me-1">💡</i>Default password: <code>admin123</code>
-                            </small>
+                
+                <!-- Quick Information Card -->
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body text-center p-4">
+                        <h6 class="card-title mb-3">📊 Dashboard Features</h6>
+                        <div class="row g-3 text-start">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary rounded-circle me-2">📈</span>
+                                    <small>Real-time Analytics</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-success rounded-circle me-2">💾</span>
+                                    <small>Data Export</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-info rounded-circle me-2">📊</span>
+                                    <small>Sentiment Analysis</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-warning rounded-circle me-2">📋</span>
+                                    <small>Response Stats</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="me-2">🚀</i>Access Dashboard
-                            </button>
-                        </div>
-                        
-                        {% if error %}
-                        <div class="alert alert-danger mt-3 mb-0">
-                            <i class="me-2">⚠️</i>{{ error }}
-                        </div>
-                        {% endif %}
-                    </form>
-                </div>
-                <div class="card-footer text-center text-muted py-3">
-                    <small>
-                        <i class="me-1">🏠</i>
-                        <a href="/" class="text-decoration-none">Back to Home Page</a>
-                    </small>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-</div>
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Form Enhancement Script -->
+    <script>
+        // Form validation and enhancement
+        (function() {
+            'use strict';
+            
+            const form = document.querySelector('.needs-validation');
+            const loginBtn = document.getElementById('loginBtn');
+            const passwordInput = document.getElementById('admin_password');
+            
+            // Form validation
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    passwordInput.focus();
+                } else {
+                    // Show loading state
+                    loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Logging in...';
+                    loginBtn.disabled = true;
+                }
+                
+                form.classList.add('was-validated');
+            });
+            
+            // Auto-focus password field
+            passwordInput.focus();
+            
+            // Clear validation on input
+            passwordInput.addEventListener('input', function() {
+                if (this.value.length >= 6) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                }
+            });
+        })();
+    </script>
 </body>
 </html> 

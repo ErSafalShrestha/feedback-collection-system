@@ -3,179 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Feedback Form</title>
+    <title>Teacher Feedback Form - Online Learning Research</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/style.css" rel="stylesheet">
+    <meta name="description" content="Teacher feedback form for online learning research in Nepalese secondary schools">
+    <meta name="theme-color" content="#059669">
 </head>
 <body>
-<div class="container py-5">
-    <div class="card shadow p-4 mx-auto" style="max-width: 700px;">
-        <h2 class="main-title text-center mb-3">Teacher Feedback Form</h2>
-        <p class="subtitle text-center mb-4">Welcome! This platform is developed as part of my MSc final year dissertation at the University of the West of Scotland. The goal is to collect valuable feedback from students and teachers to improve the quality of online learning in Nepalese secondary schools.</p>
-        <form method="POST" action="">
-            <!-- Personal Info -->
-            <div class="row mb-3">
-                <div class="col-md-6 mb-3">
-                    <label for="teacher_name" class="form-label">Name *</label>
-                    <input type="text" class="form-control" id="teacher_name" name="teacher_name" required>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="visually-hidden-focusable btn btn-success position-absolute top-0 start-0">Skip to main content</a>
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-sm navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a href="/" class="navbar-brand text-success fw-bold">
+                <i class="me-2">🎓</i>
+                <span class="d-none d-sm-inline">Feedback System</span>
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a href="/" class="nav-link">
+                    <i class="me-1">🏠</i>
+                    <span class="d-none d-sm-inline">Home</span>
+                </a>
+                <a href="/student_feedback" class="nav-link">
+                    <i class="me-1">👨‍🎓</i>
+                    <span class="d-none d-sm-inline">Student Form</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container py-4 py-md-5">
+        <div class="card shadow p-3 p-md-4 mx-auto" style="max-width: 700px;">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h1 class="main-title mb-3 text-success">👩‍🏫 Teacher Feedback Form</h1>
+                <p class="subtitle mb-3 px-2 px-md-0">Welcome! This platform is developed as part of my MSc final year dissertation at the University of the West of Scotland. The goal is to collect valuable feedback from students and teachers to improve the quality of online learning in Nepalese secondary schools.</p>
+                
+                <!-- Progress Indicator -->
+                <div class="progress mb-3" style="height: 4px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%" id="formProgress"></div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="teacher_subject" class="form-label">Subject *</label>
-                    <input type="text" class="form-control" id="teacher_subject" name="teacher_subject" required>
+            </div>
+
+            <!-- Form with Enhanced Validation -->
+            <form method="POST" action="" class="needs-validation" novalidate id="teacherForm">
+                <!-- Personal Information Section -->
+                <div class="card border-success border-opacity-25 mb-4">
+                    <div class="card-header bg-success bg-opacity-10">
+                        <h5 class="mb-0 fw-semibold">
+                            <i class="me-2">👤</i>Personal Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label for="teacher_name" class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="teacher_name" name="teacher_name" required 
+                                       placeholder="Enter your full name">
+                                <div class="invalid-feedback">Please provide your full name.</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="teacher_subject" class="form-label">Subject/Department *</label>
+                                <input type="text" class="form-control" id="teacher_subject" name="teacher_subject" required 
+                                       placeholder="e.g., Mathematics, English, Science">
+                                <div class="invalid-feedback">Please provide your subject or department.</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="teacher_email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="teacher_email" name="teacher_email" required 
+                                       placeholder="your.email@example.com">
+                                <div class="invalid-feedback">Please provide a valid email address.</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="teacher_phone" class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="teacher_phone" name="teacher_phone" required 
+                                       pattern="[0-9]{10}" placeholder="10-digit phone number">
+                                <div class="invalid-feedback">Please provide a valid 10-digit phone number.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="teacher_email" class="form-label">Email *</label>
-                    <input type="email" class="form-control" id="teacher_email" name="teacher_email" required>
+
+                <!-- Closed-ended Questions Section -->
+                <div class="card border-primary border-opacity-25 mb-4">
+                    <div class="card-header bg-primary bg-opacity-10">
+                        <h5 class="mb-0 fw-semibold">
+                            <i class="me-2">📊</i>Multiple Choice Questions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <!-- Question 1 -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">1. How effective do you find online teaching?</label>
+                                <select class="form-select" name="q1" required>
+                                    <option value="">Please select an option</option>
+                                    <option value="Very Effective">Very Effective</option>
+                                    <option value="Effective">Effective</option>
+                                    <option value="Neutral">Neutral</option>
+                                    <option value="Ineffective">Ineffective</option>
+                                    <option value="Very Ineffective">Very Ineffective</option>
+                                </select>
+                                <div class="invalid-feedback">Please select your effectiveness rating.</div>
+                            </div>
+
+                            <!-- Question 2 -->
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">2. Do you have access to necessary teaching resources online?</label>
+                                <select class="form-select" name="q2" required>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <!-- Question 3 -->
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">3. How often do you face technical issues while teaching online?</label>
+                                <select class="form-select" name="q3" required>
+                                    <option value="">Select</option>
+                                    <option value="Never">Never</option>
+                                    <option value="Rarely">Rarely</option>
+                                    <option value="Sometimes">Sometimes</option>
+                                    <option value="Often">Often</option>
+                                    <option value="Always">Always</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <!-- Questions 4-10 in responsive grid -->
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">4. Are students engaged during online classes?</label>
+                                <select class="form-select" name="q4" required>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">5. Do you feel comfortable using online teaching tools?</label>
+                                <select class="form-select" name="q5" required>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">6. How would you rate student participation?</label>
+                                <select class="form-select" name="q6" required>
+                                    <option value="">Select</option>
+                                    <option value="Excellent">Excellent</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Average">Average</option>
+                                    <option value="Poor">Poor</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">7. Are assessments and grading manageable online?</label>
+                                <select class="form-select" name="q7" required>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">8. Do you prefer online or in-person teaching?</label>
+                                <select class="form-select" name="q8" required>
+                                    <option value="">Select</option>
+                                    <option value="Online">Online</option>
+                                    <option value="In-person">In-person</option>
+                                    <option value="No Preference">No Preference</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">9. Do you provide timely feedback to students?</label>
+                                <select class="form-select" name="q9" required>
+                                    <option value="">Select</option>
+                                    <option value="Always">Always</option>
+                                    <option value="Often">Often</option>
+                                    <option value="Sometimes">Sometimes</option>
+                                    <option value="Rarely">Rarely</option>
+                                    <option value="Never">Never</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-semibold">10. Would you recommend online teaching to others?</label>
+                                <select class="form-select" name="q10" required>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <div class="invalid-feedback">Please select an option.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="teacher_phone" class="form-label">Phone *</label>
-                    <input type="tel" class="form-control" id="teacher_phone" name="teacher_phone" required pattern="[0-9]{10}">
+
+                <!-- Open-ended Questions Section -->
+                <div class="card border-info border-opacity-25 mb-4">
+                    <div class="card-header bg-info bg-opacity-10">
+                        <h5 class="mb-0 fw-semibold">
+                            <i class="me-2">💭</i>Detailed Feedback Questions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">1. What do you find most effective about online teaching?</label>
+                                <textarea class="form-control" name="open_q1" rows="3" required 
+                                          placeholder="Share your positive experiences..."></textarea>
+                                <div class="invalid-feedback">Please share your thoughts.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">2. What are the main challenges you face in online teaching?</label>
+                                <textarea class="form-control" name="open_q2" rows="3" required 
+                                          placeholder="Describe any difficulties..."></textarea>
+                                <div class="invalid-feedback">Please share your challenges.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">3. How has online teaching changed your teaching methods?</label>
+                                <textarea class="form-control" name="open_q3" rows="3" required 
+                                          placeholder="Changes in your approach..."></textarea>
+                                <div class="invalid-feedback">Please describe the changes.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">4. What improvements would you suggest for online teaching platforms?</label>
+                                <textarea class="form-control" name="open_q4" rows="3" required 
+                                          placeholder="Your improvement ideas..."></textarea>
+                                <div class="invalid-feedback">Please share your suggestions.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">5. How do you ensure student engagement in virtual classrooms?</label>
+                                <textarea class="form-control" name="open_q5" rows="3" required 
+                                          placeholder="Your engagement strategies..."></textarea>
+                                <div class="invalid-feedback">Please share your methods.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">6. Describe your ideal online teaching setup and tools.</label>
+                                <textarea class="form-control" name="open_q6" rows="3" required 
+                                          placeholder="Your perfect teaching environment..."></textarea>
+                                <div class="invalid-feedback">Please describe your ideal setup.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">7. How do you assess student learning effectiveness online?</label>
+                                <textarea class="form-control" name="open_q7" rows="3" required 
+                                          placeholder="Assessment methods and strategies..."></textarea>
+                                <div class="invalid-feedback">Please describe your assessment approach.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">8. What technical training or support do you need?</label>
+                                <textarea class="form-control" name="open_q8" rows="3" required 
+                                          placeholder="Training needs and support requirements..."></textarea>
+                                <div class="invalid-feedback">Please describe your training needs.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">9. How has online teaching affected your work-life balance?</label>
+                                <textarea class="form-control" name="open_q9" rows="3" required 
+                                          placeholder="Personal and professional impact..."></textarea>
+                                <div class="invalid-feedback">Please describe the impact.</div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label fw-semibold">10. Any additional thoughts on the future of online education?</label>
+                                <textarea class="form-control" name="open_q10" rows="3" required 
+                                          placeholder="Your vision and expectations..."></textarea>
+                                <div class="invalid-feedback">Please share your thoughts.</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <!-- Closed-ended Questions -->
-            <h5 class="mb-3">Closed-ended Questions</h5>
-            <div class="mb-3">
-                <label class="form-label">1. How effective do you find online teaching?</label>
-                <select class="form-select" name="q1" required>
-                    <option value="">Select</option>
-                    <option>Very Effective</option>
-                    <option>Effective</option>
-                    <option>Neutral</option>
-                    <option>Ineffective</option>
-                    <option>Very Ineffective</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">2. Do you have access to necessary teaching resources online?</label>
-                <select class="form-select" name="q2" required>
-                    <option value="">Select</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">3. How often do you face technical issues while teaching online?</label>
-                <select class="form-select" name="q3" required>
-                    <option value="">Select</option>
-                    <option>Never</option>
-                    <option>Rarely</option>
-                    <option>Sometimes</option>
-                    <option>Often</option>
-                    <option>Always</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">4. Are students engaged during online classes?</label>
-                <select class="form-select" name="q4" required>
-                    <option value="">Select</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">5. Do you feel comfortable using online teaching tools?</label>
-                <select class="form-select" name="q5" required>
-                    <option value="">Select</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">6. How would you rate student participation?</label>
-                <select class="form-select" name="q6" required>
-                    <option value="">Select</option>
-                    <option>Excellent</option>
-                    <option>Good</option>
-                    <option>Average</option>
-                    <option>Poor</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">7. Are assessments and grading manageable online?</label>
-                <select class="form-select" name="q7" required>
-                    <option value="">Select</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">8. Do you prefer online or in-person teaching?</label>
-                <select class="form-select" name="q8" required>
-                    <option value="">Select</option>
-                    <option>Online</option>
-                    <option>In-person</option>
-                    <option>No Preference</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">9. Do you provide timely feedback to students?</label>
-                <select class="form-select" name="q9" required>
-                    <option value="">Select</option>
-                    <option>Always</option>
-                    <option>Often</option>
-                    <option>Sometimes</option>
-                    <option>Rarely</option>
-                    <option>Never</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">10. Would you recommend online teaching to others?</label>
-                <select class="form-select" name="q10" required>
-                    <option value="">Select</option>
-                    <option>Yes</option>
-                    <option>No</option>
-                </select>
-            </div>
-            <hr>
-            <!-- Open-ended Questions -->
-            <h5 class="mb-3">Open-ended Questions</h5>
-            <div class="mb-3">
-                <label class="form-label">1. What do you find most effective about online teaching?</label>
-                <textarea class="form-control" name="open_q1" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">2. What are the main challenges you face in online teaching?</label>
-                <textarea class="form-control" name="open_q2" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">3. How has online teaching changed your teaching methods?</label>
-                <textarea class="form-control" name="open_q3" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">4. What improvements would you suggest for online teaching platforms?</label>
-                <textarea class="form-control" name="open_q4" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">5. How do you ensure student engagement in virtual classrooms?</label>
-                <textarea class="form-control" name="open_q5" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">6. Describe your ideal online teaching setup and tools.</label>
-                <textarea class="form-control" name="open_q6" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">7. How do you assess student learning effectiveness online?</label>
-                <textarea class="form-control" name="open_q7" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">8. What technical training or support do you need?</label>
-                <textarea class="form-control" name="open_q8" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">9. How has online teaching affected your work-life balance?</label>
-                <textarea class="form-control" name="open_q9" rows="2" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">10. Any additional thoughts on the future of online education?</label>
-                <textarea class="form-control" name="open_q10" rows="2" required></textarea>
-            </div>
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-success btn-lg">Submit Feedback</button>
-                <a href="/" class="btn btn-link">Cancel</a>
-            </div>
-        </form>
-    </div>
-</div>
+
+                <!-- Form Actions -->
+                <div class="text-center mt-4">
+                    <div class="row g-2">
+                        <div class="col-12 col-sm-6">
+                            <button type="submit" class="btn btn-success btn-lg w-100" id="submitBtn">
+                                <i class="me-2">📝</i>Submit Feedback
+                            </button>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <a href="/" class="btn btn-outline-secondary btn-lg w-100">
+                                <i class="me-2">🏠</i>Back to Home
+                            </a>
+                        </div>
+                    </div>
+                    <small class="text-muted mt-3 d-block">
+                        <i class="me-1">🔒</i>All information is confidential and will be used only for research purposes.
+                    </small>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Form Enhancement Script -->
+    <script>
+        // Form validation and progress tracking
+        (function() {
+            'use strict';
+            
+            const form = document.getElementById('teacherForm');
+            const progressBar = document.getElementById('formProgress');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Calculate and update progress
+            function updateProgress() {
+                const formElements = form.querySelectorAll('input[required], select[required], textarea[required]');
+                const filledElements = Array.from(formElements).filter(el => el.value.trim() !== '');
+                const progress = (filledElements.length / formElements.length) * 100;
+                progressBar.style.width = progress + '%';
+                progressBar.setAttribute('aria-valuenow', progress);
+            }
+            
+            // Add event listeners for progress tracking
+            form.addEventListener('input', updateProgress);
+            form.addEventListener('change', updateProgress);
+            
+            // Form validation
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    // Find first invalid field and focus it
+                    const firstInvalid = form.querySelector(':invalid');
+                    if (firstInvalid) {
+                        firstInvalid.focus();
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else {
+                    // Show loading state
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+                    submitBtn.disabled = true;
+                }
+                
+                form.classList.add('was-validated');
+            });
+            
+            // Auto-resize textareas
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            });
+            
+            // Initialize progress
+            updateProgress();
+        })();
+    </script>
 </body>
 </html> 
