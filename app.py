@@ -131,6 +131,10 @@ def analyze_sentiment(open_responses):
 def index():
     return render_template('index.html')
 
+@app.route('/robots.txt')
+def robots_txt():
+    return app.send_static_file('robots.txt')
+
 @app.route('/student_feedback', methods=['GET', 'POST'])
 def student_feedback():
     if request.method == 'POST':

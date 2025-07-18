@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /student_feedback
+Allow: /teacher_feedback
+
+# Admin area - restrict access
+Disallow: /admin
+
+# Sitemap location (will be available after deployment)
+Sitemap: https://your-domain.com/sitemap.xml 
