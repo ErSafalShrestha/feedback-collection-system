@@ -272,62 +272,85 @@ def admin_dashboard():
     if not session.get('admin_logged_in'):
         return redirect(url_for('admin_login'))
     
-    # Get statistics
-    student_count = StudentFeedback.query.count()
-    teacher_count = TeacherFeedback.query.count()
-    
-    # Generate charts
-    charts = generate_charts()
-    
-    return render_template('admin_analytics.html', 
-                         student_count=student_count,
-                         teacher_count=teacher_count,
-                         charts=charts)
+    try:
+        # Get statistics
+        student_count = StudentFeedback.query.count()
+        teacher_count = TeacherFeedback.query.count()
+        
+        # Generate charts with error handling
+        charts = generate_charts()
+        
+        return render_template('admin_analytics.html', 
+                             student_count=student_count,
+                             teacher_count=teacher_count,
+                             charts=charts)
+    except Exception as e:
+        print(f"Error in admin dashboard: {e}")
+        # Return dashboard without charts if there's an error
+        return render_template('admin_analytics.html', 
+                             student_count=0,
+                             teacher_count=0,
+                             charts={})
 
 def generate_charts():
     charts = {}
     
-    # Sentiment distribution chart
-    student_sentiments = db.session.query(StudentFeedback.sentiment_label).all()
-    teacher_sentiments = db.session.query(TeacherFeedback.sentiment_label).all()
-    
-    sentiment_data = {}
-    for sentiment in [s[0] for s in student_sentiments + teacher_sentiments]:
-        sentiment_data[sentiment] = sentiment_data.get(sentiment, 0) + 1
-    
-    if sentiment_data:
-        plt.figure(figsize=(8, 6))
-        plt.bar(list(sentiment_data.keys()), list(sentiment_data.values()), color=['#28a745', '#ffc107', '#dc3545'])
-        plt.title('Overall Sentiment Distribution')
-        plt.ylabel('Count')
-        plt.xlabel('Sentiment')
+    try:
+        # Sentiment distribution chart
+        student_sentiments = db.session.query(StudentFeedback.sentiment_label).all()
+        teacher_sentiments = db.session.query(TeacherFeedback.sentiment_label).all()
         
-        # Save chart as base64 string
-        img = io.BytesIO()
-        plt.savefig(img, format='png', bbox_inches='tight')
-        img.seek(0)
-        charts['sentiment'] = base64.b64encode(img.getvalue()).decode()
-        plt.close()
-    
-    # Satisfaction levels
-    student_satisfaction = db.session.query(StudentFeedback.q1).all()
-    satisfaction_data = {}
-    for sat in [s[0] for s in student_satisfaction]:
-        satisfaction_data[sat] = satisfaction_data.get(sat, 0) + 1
-    
-    if satisfaction_data:
-        plt.figure(figsize=(10, 6))
-        plt.bar(list(satisfaction_data.keys()), list(satisfaction_data.values()), color='#007bff')
-        plt.title('Student Satisfaction Levels')
-        plt.ylabel('Count')
-        plt.xlabel('Satisfaction Level')
-        plt.xticks(rotation=45)
+        sentiment_data = {}
+        for sentiment in [s[0] for s in student_sentiments + teacher_sentiments if s[0]]:
+            sentiment_data[sentiment] = sentiment_data.get(sentiment, 0) + 1
         
-        img = io.BytesIO()
-        plt.savefig(img, format='png', bbox_inches='tight')
-        img.seek(0)
-        charts['satisfaction'] = base64.b64encode(img.getvalue()).decode()
-        plt.close()
+        if sentiment_data:
+            try:
+                plt.figure(figsize=(8, 6))
+                colors = ['#28a745' if k == 'positive' else '#ffc107' if k == 'neutral' else '#dc3545' 
+                         for k in sentiment_data.keys()]
+                plt.bar(list(sentiment_data.keys()), list(sentiment_data.values()), color=colors)
+                plt.title('Overall Sentiment Distribution')
+                plt.ylabel('Count')
+                plt.xlabel('Sentiment')
+                
+                # Save chart as base64 string
+                img = io.BytesIO()
+                plt.savefig(img, format='png', bbox_inches='tight', dpi=80, facecolor='white')
+                img.seek(0)
+                charts['sentiment'] = base64.b64encode(img.getvalue()).decode()
+                plt.close()
+            except Exception as e:
+                print(f"Error generating sentiment chart: {e}")
+                plt.close('all')  # Close any open figures
+        
+        # Satisfaction levels
+        try:
+            student_satisfaction = db.session.query(StudentFeedback.q1).all()
+            satisfaction_data = {}
+            for sat in [s[0] for s in student_satisfaction if s[0]]:
+                satisfaction_data[sat] = satisfaction_data.get(sat, 0) + 1
+            
+            if satisfaction_data:
+                plt.figure(figsize=(10, 6))
+                plt.bar(list(satisfaction_data.keys()), list(satisfaction_data.values()), color='#007bff')
+                plt.title('Student Satisfaction Levels')
+                plt.ylabel('Count')
+                plt.xlabel('Satisfaction Level')
+                plt.xticks(rotation=45)
+                
+                img = io.BytesIO()
+                plt.savefig(img, format='png', bbox_inches='tight', dpi=80, facecolor='white')
+                img.seek(0)
+                charts['satisfaction'] = base64.b64encode(img.getvalue()).decode()
+                plt.close()
+        except Exception as e:
+            print(f"Error generating satisfaction chart: {e}")
+            plt.close('all')  # Close any open figures
+            
+    except Exception as e:
+        print(f"Error in chart generation: {e}")
+        plt.close('all')  # Close any open figures
     
     return charts
 
