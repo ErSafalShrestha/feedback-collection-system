@@ -256,13 +256,9 @@ def thankyou_teacher(name):
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
-    # If already logged in, go directly to dashboard
-    if session.get('admin_logged_in'):
-        return redirect(url_for('admin_dashboard'))
-        
     if request.method == 'POST':
         password = request.form.get('admin_password')
-        if password == 'password123':  # Simple hardcoded password for prototype
+        if password == 'admin123':  # Simple hardcoded password for prototype
             session['admin_logged_in'] = True
             return redirect(url_for('admin_dashboard'))
         else:
@@ -285,25 +281,17 @@ def admin_dashboard():
         # Generate charts with error handling
         charts = generate_charts()
         
-        # Get recent data for preview
-        recent_students = StudentFeedback.query.order_by(StudentFeedback.created_at.desc()).limit(10).all()
-        recent_teachers = TeacherFeedback.query.order_by(TeacherFeedback.created_at.desc()).limit(10).all()
-        
-        return render_template('admin_dashboard.html', 
+        return render_template('admin_analytics.html', 
                              student_count=student_count,
                              teacher_count=teacher_count,
-                             charts=charts,
-                             recent_students=recent_students,
-                             recent_teachers=recent_teachers)
+                             charts=charts)
     except Exception as e:
         print(f"Error in admin dashboard: {e}")
         # Return dashboard without charts if there's an error
-        return render_template('admin_dashboard.html', 
+        return render_template('admin_analytics.html', 
                              student_count=0,
                              teacher_count=0,
-                             charts={},
-                             recent_students=[],
-                             recent_teachers=[])
+                             charts={})
 
 def generate_charts():
     charts = {}
@@ -320,33 +308,12 @@ def generate_charts():
         if sentiment_data:
             try:
                 plt.figure(figsize=(8, 6))
-                
-                # Define distinct colors for sentiment analysis
-                sentiment_colors = {
-                    'positive': '#2E8B57',     # Sea Green
-                    'neutral': '#FF8C00',      # Dark Orange  
-                    'negative': '#DC143C'      # Crimson Red
-                }
-                
-                # Get colors for each bar based on sentiment
-                colors = [sentiment_colors.get(sentiment, '#6495ED') for sentiment in sentiment_data.keys()]
-                
-                # Calculate total for percentages
-                total_responses = sum(sentiment_data.values())
-                
-                bars = plt.bar(list(sentiment_data.keys()), list(sentiment_data.values()), color=colors)
-                
-                # Add percentage labels on bars
-                for bar, (sentiment, count) in zip(bars, sentiment_data.items()):
-                    percentage = (count / total_responses) * 100
-                    height = bar.get_height()
-                    plt.text(bar.get_x() + bar.get_width()/2., height + total_responses*0.01,
-                            f'{percentage:.1f}%', ha='center', va='bottom', fontweight='bold', fontsize=10)
-                
+                colors = ['#28a745' if k == 'positive' else '#ffc107' if k == 'neutral' else '#dc3545' 
+                         for k in sentiment_data.keys()]
+                plt.bar(list(sentiment_data.keys()), list(sentiment_data.values()), color=colors)
                 plt.title('Overall Sentiment Distribution')
                 plt.ylabel('Count')
                 plt.xlabel('Sentiment')
-                plt.ylim(0, max(sentiment_data.values()) * 1.15)  # Add space for percentage labels
                 
                 # Save chart as base64 string
                 img = io.BytesIO()
@@ -358,7 +325,7 @@ def generate_charts():
                 print(f"Error generating sentiment chart: {e}")
                 plt.close('all')  # Close any open figures
         
-        # Student Satisfaction levels
+        # Satisfaction levels
         try:
             student_satisfaction = db.session.query(StudentFeedback.q1).all()
             satisfaction_data = {}
@@ -367,36 +334,11 @@ def generate_charts():
             
             if satisfaction_data:
                 plt.figure(figsize=(10, 6))
-                
-                # Define colors for different satisfaction levels
-                satisfaction_colors = {
-                    'Very Satisfied': '#28a745',      # Green
-                    'Satisfied': '#6c757d',           # Gray
-                    'Neutral': '#ffc107',             # Yellow  
-                    'Dissatisfied': '#fd7e14',        # Orange
-                    'Very Dissatisfied': '#dc3545'    # Red
-                }
-                
-                # Get colors for each bar based on satisfaction level
-                colors = [satisfaction_colors.get(level, '#007bff') for level in satisfaction_data.keys()]
-                
-                # Calculate total for percentages
-                total_responses = sum(satisfaction_data.values())
-                
-                bars = plt.bar(list(satisfaction_data.keys()), list(satisfaction_data.values()), color=colors)
-                
-                # Add percentage labels on bars
-                for bar, (level, count) in zip(bars, satisfaction_data.items()):
-                    percentage = (count / total_responses) * 100
-                    height = bar.get_height()
-                    plt.text(bar.get_x() + bar.get_width()/2., height + total_responses*0.01,
-                            f'{percentage:.1f}%', ha='center', va='bottom', fontweight='bold', fontsize=10)
-                
+                plt.bar(list(satisfaction_data.keys()), list(satisfaction_data.values()), color='#007bff')
                 plt.title('Student Satisfaction Levels')
                 plt.ylabel('Count')
                 plt.xlabel('Satisfaction Level')
                 plt.xticks(rotation=45)
-                plt.ylim(0, max(satisfaction_data.values()) * 1.15)  # Add space for percentage labels
                 
                 img = io.BytesIO()
                 plt.savefig(img, format='png', bbox_inches='tight', dpi=80, facecolor='white')
@@ -405,55 +347,6 @@ def generate_charts():
                 plt.close()
         except Exception as e:
             print(f"Error generating satisfaction chart: {e}")
-            plt.close('all')  # Close any open figures
-            
-        # Teacher Effectiveness levels
-        try:
-            teacher_effectiveness = db.session.query(TeacherFeedback.q1).all()
-            effectiveness_data = {}
-            for eff in [e[0] for e in teacher_effectiveness if e[0]]:
-                effectiveness_data[eff] = effectiveness_data.get(eff, 0) + 1
-            
-            if effectiveness_data:
-                plt.figure(figsize=(10, 6))
-                
-                # Define colors for different effectiveness levels
-                effectiveness_colors = {
-                    'Very Effective': '#28a745',       # Green
-                    'Effective': '#17a2b8',           # Teal
-                    'Neutral': '#ffc107',             # Yellow
-                    'Ineffective': '#fd7e14',         # Orange
-                    'Very Ineffective': '#dc3545'     # Red
-                }
-                
-                # Get colors for each bar based on effectiveness level
-                colors = [effectiveness_colors.get(level, '#007bff') for level in effectiveness_data.keys()]
-                
-                # Calculate total for percentages
-                total_responses = sum(effectiveness_data.values())
-                
-                bars = plt.bar(list(effectiveness_data.keys()), list(effectiveness_data.values()), color=colors)
-                
-                # Add percentage labels on bars
-                for bar, (level, count) in zip(bars, effectiveness_data.items()):
-                    percentage = (count / total_responses) * 100
-                    height = bar.get_height()
-                    plt.text(bar.get_x() + bar.get_width()/2., height + total_responses*0.01,
-                            f'{percentage:.1f}%', ha='center', va='bottom', fontweight='bold', fontsize=10)
-                
-                plt.title('Teacher Effectiveness Levels')
-                plt.ylabel('Count')
-                plt.xlabel('Effectiveness Level')
-                plt.xticks(rotation=45)
-                plt.ylim(0, max(effectiveness_data.values()) * 1.15)  # Add space for percentage labels
-                
-                img = io.BytesIO()
-                plt.savefig(img, format='png', bbox_inches='tight', dpi=80, facecolor='white')
-                img.seek(0)
-                charts['teacher_effectiveness'] = base64.b64encode(img.getvalue()).decode()
-                plt.close()
-        except Exception as e:
-            print(f"Error generating teacher effectiveness chart: {e}")
             plt.close('all')  # Close any open figures
             
     except Exception as e:
@@ -686,18 +579,13 @@ def upload_student_csv():
             
             for row_num, row in enumerate(csv_reader, start=2):
                 try:
-                    # Validate required fields
-                    name = row.get('student_name', '').strip()
-                    if not name:
-                        continue  # Skip empty rows
-                    
                     # Create student feedback entry
                     student_feedback = StudentFeedback(
                         # Basic info
-                        student_name=name,
-                        student_class=row.get('student_class', '').strip(),
-                        student_email=row.get('student_email', '').strip(),
-                        student_phone=row.get('student_phone', '').strip(),
+                        student_name=row.get('student_name', ''),
+                        student_class=row.get('student_class', ''),
+                        student_email=row.get('student_email', ''),
+                        student_phone=row.get('student_phone', ''),
                         
                         # Closed-ended questions
                         q1=row.get('q1', ''),
@@ -796,18 +684,13 @@ def upload_teacher_csv():
             
             for row_num, row in enumerate(csv_reader, start=2):
                 try:
-                    # Validate required fields
-                    name = row.get('teacher_name', '').strip()
-                    if not name:
-                        continue  # Skip empty rows
-                    
                     # Create teacher feedback entry
                     teacher_feedback = TeacherFeedback(
                         # Basic info
-                        teacher_name=name,
-                        teacher_subject=row.get('teacher_subject', '').strip(),
-                        teacher_email=row.get('teacher_email', '').strip(),
-                        teacher_phone=row.get('teacher_phone', '').strip(),
+                        teacher_name=row.get('teacher_name', ''),
+                        teacher_subject=row.get('teacher_subject', ''),
+                        teacher_email=row.get('teacher_email', ''),
+                        teacher_phone=row.get('teacher_phone', ''),
                         
                         # Closed-ended questions
                         q1=row.get('q1', ''),
@@ -881,252 +764,15 @@ def upload_teacher_csv():
     
     return redirect(url_for('admin_dashboard'))
 
-# Sentiment Report Download Routes
-@app.route('/admin/download/students/sentiment-report')
-def download_students_sentiment_report():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-    
-    students = StudentFeedback.query.all()
-    
-    output = io.StringIO()
-    writer = csv.writer(output)
-    
-    # Write header for sentiment report
-    header = [
-        'ID', 'Name', 'Class', 'Email', 'Phone',
-        'Sentiment Score', 'Sentiment Label', 'Subjectivity',
-        'Combined Open Responses', 'Response Count', 'Created At'
-    ]
-    writer.writerow(header)
-    
-    # Write sentiment data
-    for student in students:
-        # Combine all open responses
-        open_responses = [
-            student.open_q1, student.open_q2, student.open_q3, student.open_q4, student.open_q5,
-            student.open_q6, student.open_q7, student.open_q8, student.open_q9, student.open_q10
-        ]
-        combined_responses = " | ".join([resp for resp in open_responses if resp])
-        response_count = len([resp for resp in open_responses if resp])
-        
-        row = [
-            student.id, student.student_name, student.student_class, 
-            student.student_email, student.student_phone,
-            round(student.sentiment_polarity or 0, 4),
-            student.sentiment_label or 'neutral',
-            round(student.sentiment_subjectivity or 0, 4),
-            combined_responses,
-            response_count,
-            student.created_at.strftime('%Y-%m-%d %H:%M:%S') if student.created_at else ''
-        ]
-        writer.writerow(row)
-    
-    response = make_response(output.getvalue())
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = f'attachment; filename=student_sentiment_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
-    
-    return response
-
-@app.route('/admin/download/teachers/sentiment-report')
-def download_teachers_sentiment_report():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-    
-    teachers = TeacherFeedback.query.all()
-    
-    output = io.StringIO()
-    writer = csv.writer(output)
-    
-    # Write header for sentiment report
-    header = [
-        'ID', 'Name', 'Subject', 'Email', 'Phone',
-        'Sentiment Score', 'Sentiment Label', 'Subjectivity',
-        'Combined Open Responses', 'Response Count', 'Created At'
-    ]
-    writer.writerow(header)
-    
-    # Write sentiment data
-    for teacher in teachers:
-        # Combine all open responses
-        open_responses = [
-            teacher.open_q1, teacher.open_q2, teacher.open_q3, teacher.open_q4, teacher.open_q5,
-            teacher.open_q6, teacher.open_q7, teacher.open_q8, teacher.open_q9, teacher.open_q10
-        ]
-        combined_responses = " | ".join([resp for resp in open_responses if resp])
-        response_count = len([resp for resp in open_responses if resp])
-        
-        row = [
-            teacher.id, teacher.teacher_name, teacher.teacher_subject, 
-            teacher.teacher_email, teacher.teacher_phone,
-            round(teacher.sentiment_polarity or 0, 4),
-            teacher.sentiment_label or 'neutral',
-            round(teacher.sentiment_subjectivity or 0, 4),
-            combined_responses,
-            response_count,
-            teacher.created_at.strftime('%Y-%m-%d %H:%M:%S') if teacher.created_at else ''
-        ]
-        writer.writerow(row)
-    
-    response = make_response(output.getvalue())
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = f'attachment; filename=teacher_sentiment_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
-    
-    return response
-
-# Complete Data Export Routes
-@app.route('/admin/download/complete-export')
-def download_complete_export():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-    
-    output = io.StringIO()
-    writer = csv.writer(output)
-    
-    # Write header for combined export
-    header = [
-        'Type', 'ID', 'Name', 'Class/Subject', 'Email', 'Phone',
-        'Sentiment Score', 'Sentiment Label', 'Subjectivity',
-        'All Closed Responses', 'All Open Responses', 'Created At'
-    ]
-    writer.writerow(header)
-    
-    # Write student data
-    students = StudentFeedback.query.all()
-    for student in students:
-        closed_responses = f"{student.q1} | {student.q2} | {student.q3} | {student.q4} | {student.q5} | {student.q6} | {student.q7} | {student.q8} | {student.q9} | {student.q10}"
-        open_responses = f"{student.open_q1} | {student.open_q2} | {student.open_q3} | {student.open_q4} | {student.open_q5} | {student.open_q6} | {student.open_q7} | {student.open_q8} | {student.open_q9} | {student.open_q10}"
-        
-        row = [
-            'STUDENT', student.id, student.student_name, student.student_class, 
-            student.student_email, student.student_phone,
-            round(student.sentiment_polarity or 0, 4),
-            student.sentiment_label or 'neutral',
-            round(student.sentiment_subjectivity or 0, 4),
-            closed_responses, open_responses,
-            student.created_at.strftime('%Y-%m-%d %H:%M:%S') if student.created_at else ''
-        ]
-        writer.writerow(row)
-    
-    # Write teacher data
-    teachers = TeacherFeedback.query.all()
-    for teacher in teachers:
-        closed_responses = f"{teacher.q1} | {teacher.q2} | {teacher.q3} | {teacher.q4} | {teacher.q5} | {teacher.q6} | {teacher.q7} | {teacher.q8} | {teacher.q9} | {teacher.q10}"
-        open_responses = f"{teacher.open_q1} | {teacher.open_q2} | {teacher.open_q3} | {teacher.open_q4} | {teacher.open_q5} | {teacher.open_q6} | {teacher.open_q7} | {teacher.open_q8} | {teacher.open_q9} | {teacher.open_q10}"
-        
-        row = [
-            'TEACHER', teacher.id, teacher.teacher_name, teacher.teacher_subject, 
-            teacher.teacher_email, teacher.teacher_phone,
-            round(teacher.sentiment_polarity or 0, 4),
-            teacher.sentiment_label or 'neutral',
-            round(teacher.sentiment_subjectivity or 0, 4),
-            closed_responses, open_responses,
-            teacher.created_at.strftime('%Y-%m-%d %H:%M:%S') if teacher.created_at else ''
-        ]
-        writer.writerow(row)
-    
-    response = make_response(output.getvalue())
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = f'attachment; filename=complete_feedback_export_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
-    
-    return response
-
-# Chart Download Routes
-@app.route('/admin/download/chart/sentiment')
-def admin_download_sentiment_chart():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-    
-    try:
-        charts = generate_charts()
-        if not charts.get('sentiment'):
-            flash('Sentiment chart not available. Please ensure there is feedback data.', 'error')
-            return redirect(url_for('admin_dashboard'))
-        
-        # Decode base64 image
-        image_data = base64.b64decode(charts['sentiment'])
-        
-        # Create response
-        response = make_response(image_data)
-        response.headers['Content-Disposition'] = f'attachment; filename=sentiment_analysis_chart_{datetime.now().strftime("%Y%m%d_%H%M%S")}.png'
-        response.headers['Content-Type'] = 'image/png'
-        
-        return response
-        
-    except Exception as e:
-        flash(f'Error downloading sentiment chart: {str(e)}', 'error')
-        return redirect(url_for('admin_dashboard'))
-
-@app.route('/admin/download/chart/satisfaction')
-def admin_download_satisfaction_chart():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-    
-    try:
-        charts = generate_charts()
-        if not charts.get('satisfaction'):
-            flash('Student satisfaction chart not available. Please ensure there is student feedback data.', 'error')
-            return redirect(url_for('admin_dashboard'))
-        
-        # Decode base64 image
-        image_data = base64.b64decode(charts['satisfaction'])
-        
-        # Create response
-        response = make_response(image_data)
-        response.headers['Content-Disposition'] = f'attachment; filename=student_satisfaction_chart_{datetime.now().strftime("%Y%m%d_%H%M%S")}.png'
-        response.headers['Content-Type'] = 'image/png'
-        
-        return response
-        
-    except Exception as e:
-        flash(f'Error downloading satisfaction chart: {str(e)}', 'error')
-        return redirect(url_for('admin_dashboard'))
-
-@app.route('/admin/download/chart/teacher-effectiveness')
-def admin_download_teacher_effectiveness_chart():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-    
-    try:
-        charts = generate_charts()
-        if not charts.get('teacher_effectiveness'):
-            flash('Teacher effectiveness chart not available. Please ensure there is teacher feedback data.', 'error')
-            return redirect(url_for('admin_dashboard'))
-        
-        # Decode base64 image
-        image_data = base64.b64decode(charts['teacher_effectiveness'])
-        
-        # Create response
-        response = make_response(image_data)
-        response.headers['Content-Disposition'] = f'attachment; filename=teacher_effectiveness_chart_{datetime.now().strftime("%Y%m%d_%H%M%S")}.png'
-        response.headers['Content-Type'] = 'image/png'
-        
-        return response
-        
-    except Exception as e:
-        flash(f'Error downloading teacher effectiveness chart: {str(e)}', 'error')
-        return redirect(url_for('admin_dashboard'))
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     
-    # Get port from environment variable for deployment or use 8080 for local
+    # Get port from environment variable for deployment or use 5000 for local
     import os
-    port = int(os.environ.get('PORT', 8080))
+    port = int(os.environ.get('PORT', 5000))
     
     # Use debug=False for production deployment
     debug_mode = os.environ.get('FLASK_ENV') != 'production'
     
-    print("🎓 UNIVERSITY FEEDBACK SYSTEM ONLINE! 🎓")
-    print("=" * 60)
-    print(f"📱 For YOU (local):     http://127.0.0.1:{port}/")
-    print(f"🌐 For FRIENDS:         http://192.168.6.89:{port}/")
-    print(f"👨‍💼 Admin Dashboard:    http://192.168.6.89:{port}/admin")
-    print("=" * 60)
-    print("📋 Pages available:")
-    print(f"   • Student Feedback:  http://192.168.6.89:{port}/student")  
-    print(f"   • Teacher Feedback:  http://192.168.6.89:{port}/teacher")
-    print("=" * 60)
-    
-    app.run(debug=debug_mode, host='0.0.0.0', port=port)
+    app.run(debug=debug_mode, host='0.0.0.0', port=port) 

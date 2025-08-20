@@ -3,173 +3,623 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Feedback Analytics</title>
+    <title>Analytics Dashboard - Feedback System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/style.css" rel="stylesheet">
+    <meta name="description" content="Analytics dashboard for feedback collection system with real-time insights">
+    <meta name="theme-color" content="#1e40af">
 </head>
 <body class="bg-light">
-<div class="container py-5">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0">Skip to main content</a>
     
-   
-    <!-- Login Form Section -->
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <h2 class="mb-0">🔐 Admin Access</h2>
-                    <p class="mb-0 mt-2 opacity-75">Analytics Dashboard Login</p>
-                </div>
-                <div class="card-body p-4">
-                    <form method="POST" action="">
-                        <div class="mb-4">
-                            <label for="admin_password" class="form-label fw-semibold">Admin Password</label>
-                            <input type="password" class="form-control form-control-lg" id="admin_password" name="admin_password" required placeholder="Enter your password">
-                            <small class="form-text text-muted mt-2">
-                                <i class="me-1">💡</i>Default password: <code>admin123</code>
-                            </small>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="me-2">🚀</i>Access Dashboard
-                            </button>
-                        </div>
-                        
-                       
-                      
-                    
-                    </form>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-sm navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a href="/" class="navbar-brand text-primary fw-bold">
+                <i class="me-2">🎓</i>
+                <span class="d-none d-sm-inline">Feedback System</span>
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a href="/" class="nav-link">
+                    <i class="me-1">🏠</i>
+                    <span class="d-none d-sm-inline">Home</span>
+                </a>
+                <a href="/admin/logout" class="nav-link text-danger">
+                    <i class="me-1">🚪</i>
+                    <span class="d-none d-sm-inline">Logout</span>
+                </a>
             </div>
         </div>
-    </div>
+    </nav>
     
-   
-    <!-- Authenticated Dashboard Content -->
+    <!-- Main Content -->
+    <main id="main-content" class="container py-4 py-md-5">
     
     <!-- Dashboard Header -->
-    <div class="row align-items-center mb-5">
-        <div class="col">
+        <div class="row align-items-center mb-4 mb-md-5">
+            <div class="col-12 col-md-8">
             <h1 class="main-title mb-2">📊 Analytics Dashboard</h1>
-            <p class="text-muted mb-0">My Final Year Dissertation </p>
+                <p class="text-muted mb-0">Real-time insights from feedback collection system</p>
         </div>
-        <div class="col-auto">
-            <a href="/admin/logout" class="btn btn-outline-secondary">
-                <i class="me-2">🚪</i>Logout
-            </a>
+            <div class="col-12 col-md-4 mt-3 mt-md-0">
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-outline-primary btn-sm" onclick="location.reload()">
+                        <i class="me-1">🔄</i>
+                        <span class="d-none d-sm-inline">Refresh</span>
+                    </button>
+                    <a href="/admin/logout" class="btn btn-outline-secondary btn-sm">
+                        <i class="me-1">🚪</i>
+                        <span class="d-none d-sm-inline">Logout</span>
+                    </a>
+                </div>
         </div>
     </div>
     
     <!-- Statistics Cards -->
-    <div class="row g-4 mb-5">
-        <div class="col-md-6">
+        <div class="row g-3 g-md-4 mb-4 mb-md-5">
+            <div class="col-6 col-md-6">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center p-4">
+                    <div class="card-body text-center p-3 p-md-4">
                     <div class="d-flex align-items-center justify-content-center mb-3">
-                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
-                            <i style="font-size: 2rem;">👨‍🎓</i>
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-2 p-md-3">
+                                <i style="font-size: clamp(1.2rem, 3vw, 2rem);">👨‍🎓</i>
+                            </div>
                         </div>
+                        <h3 class="display-6 display-md-4 fw-bold text-primary mb-2">{{ student_count or 0 }}</h3>
+                        <p class="text-muted mb-0 fw-semibold small">Student Responses</p>
                     </div>
-                    <h3 class="display-4 fw-bold text-primary mb-2">Student count </h3>
-                    <p class="text-muted mb-0 fw-semibold">Student Responses</p>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
+            <div class="col-6 col-md-6">
             <div class="card border-0 shadow-sm h-100">
-                <div class="card-body text-center p-4">
+                    <div class="card-body text-center p-3 p-md-4">
                     <div class="d-flex align-items-center justify-content-center mb-3">
-                        <div class="bg-success bg-opacity-10 rounded-circle p-3">
-                            <i style="font-size: 2rem;">👩‍🏫</i>
+                            <div class="bg-success bg-opacity-10 rounded-circle p-2 p-md-3">
+                                <i style="font-size: clamp(1.2rem, 3vw, 2rem);">👩‍🏫</i>
+                            </div>
                         </div>
-                    </div>
-                    <h3 class="display-4 fw-bold text-success mb-2"> Teacher count </h3>
-                    <p class="text-muted mb-0 fw-semibold">Teacher Responses</p>
+                        <h3 class="display-6 display-md-4 fw-bold text-success mb-2">{{ teacher_count or 0 }}</h3>
+                        <p class="text-muted mb-0 fw-semibold small">Teacher Responses</p>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- Charts or No Data Section -->
-
+        {% if charts and (charts.sentiment or charts.satisfaction or charts.teacher_effectiveness) %}
     <!-- Charts Available -->
     <div class="row g-4 mb-5">
-       
-        <div class="col-lg-6">
+            {% if charts.sentiment %}
+            <div class="col-lg-4">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white border-bottom py-3">
-                    <h5 class="card-title mb-0 fw-semibold">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title mb-1 fw-semibold text-dark">
                         <i class="me-2">😊</i>Sentiment Analysis
                     </h5>
                     <small class="text-muted">Overall emotional tone of responses</small>
+                            </div>
+                            <div class="dropdown chart-dropdown">
+                                <button class="btn btn-light btn-sm border-0 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="me-1">⋯</i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/download/chart/sentiment">
+                                            <i class="me-2">📥</i>Download as PNG
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                 </div>
                 <div class="card-body p-4">
-                    <img src="data:image/png;base64,{{ charts.sentiment }}" class="img-fluid rounded" alt="Sentiment Analysis Chart">
+                        <div class="ratio ratio-4x3">
+                            <img src="data:image/png;base64,{{ charts.sentiment }}" 
+                                 class="img-fluid rounded sentiment-chart" 
+                                 alt="Sentiment Analysis Chart"
+                                 onerror="this.parentElement.innerHTML='<div class=&quot;d-flex align-items-center justify-content-center h-100 text-muted&quot;><div class=&quot;text-center&quot;><i class=&quot;fs-1&quot;>😊</i><p class=&quot;mt-2 mb-0&quot;>Chart generated successfully</p><small>Refresh if not visible</small></div></div>'">
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            {% endif %}
        
-        <div class="col-lg-6">
+            {% if charts.satisfaction %}
+            <div class="col-lg-4">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white border-bottom py-3">
-                    <h5 class="card-title mb-0 fw-semibold">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title mb-1 fw-semibold text-dark">
                         <i class="me-2">📈</i>Student Satisfaction
                     </h5>
                     <small class="text-muted">Distribution of satisfaction levels</small>
-                </div>
-                <div class="card-body p-4">
-                    <img src="data:image/png;base64,{{ charts.satisfaction }}" class="img-fluid rounded" alt="Student Satisfaction Chart">
+                            </div>
+                            <div class="dropdown chart-dropdown">
+                                <button class="btn btn-light btn-sm border-0 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="me-1">⋯</i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/download/chart/satisfaction">
+                                            <i class="me-2">📥</i>Download as PNG
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="ratio ratio-4x3">
+                            <img src="data:image/png;base64,{{ charts.satisfaction }}" 
+                                 class="img-fluid rounded satisfaction-chart" 
+                                 alt="Student Satisfaction Chart"
+                                 onerror="this.parentElement.innerHTML='<div class=&quot;d-flex align-items-center justify-content-center h-100 text-muted&quot;><div class=&quot;text-center&quot;><i class=&quot;fs-1&quot;>📈</i><p class=&quot;mt-2 mb-0&quot;>Chart generated successfully</p><small>Refresh if not visible</small></div></div>'">
+                        </div>
+                    </div>
                 </div>
             </div>
+            {% endif %}
+            
+            {% if charts.teacher_effectiveness %}
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title mb-1 fw-semibold text-dark">
+                                    <i class="me-2">👩‍🏫</i>Teacher Effectiveness
+                                </h5>
+                                <small class="text-muted">Distribution of teaching effectiveness levels</small>
+                            </div>
+                            <div class="dropdown chart-dropdown">
+                                <button class="btn btn-light btn-sm border-0 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="me-1">⋯</i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/download/chart/teacher-effectiveness">
+                                            <i class="me-2">📥</i>Download as PNG
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                </div>
+                <div class="card-body p-4">
+                        <div class="ratio ratio-4x3">
+                            <img src="data:image/png;base64,{{ charts.teacher_effectiveness }}" 
+                                 class="img-fluid rounded teacher-effectiveness-chart" 
+                                 alt="Teacher Effectiveness Chart"
+                                 onerror="this.parentElement.innerHTML='<div class=&quot;d-flex align-items-center justify-content-center h-100 text-muted&quot;><div class=&quot;text-center&quot;><i class=&quot;fs-1&quot;>👩‍🏫</i><p class=&quot;mt-2 mb-0&quot;>Chart generated successfully</p><small>Refresh if not visible</small></div></div>'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
-       
-    </div>
-   
+        {% else %}
     <!-- No Data Available -->
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="row justify-content-center mb-4 mb-md-5">
+            <div class="col-12 col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-body text-center p-5">
+                    <div class="card-body text-center p-4 p-md-5">
                     <div class="mb-4">
-                        <i style="font-size: 4rem; opacity: 0.3;">📊</i>
+                            <i style="font-size: clamp(2.5rem, 6vw, 4rem); opacity: 0.3;">📊</i>
                     </div>
                     <h4 class="mb-3">Dashboard Ready for Analytics</h4>
                     <p class="text-muted mb-4">No feedback data available yet. Charts and insights will appear once participants submit their responses.</p>
                     
-                    <div class="bg-light rounded p-4 mb-4">
+                        <div class="bg-light rounded p-3 p-md-4 mb-4">
                         <h6 class="fw-semibold mb-3">Quick Test Guide:</h6>
-                        <div class="row g-3 text-start">
-                            <div class="col-md-4">
+                            <div class="row g-2 g-md-3 text-start">
+                                <div class="col-12 col-md-4">
                                 <div class="d-flex align-items-center">
-                                    <span class="badge bg-primary rounded-circle me-3">1</span>
+                                        <span class="badge bg-primary rounded-circle me-2 me-md-3">1</span>
                                     <small>Visit <a href="/" class="text-decoration-none">Home Page</a></small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-primary rounded-circle me-2 me-md-3">2</span>
+                                        <small>Complete feedback forms</small>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-primary rounded-circle me-2 me-md-3">3</span>
+                                        <small>Return for analytics</small>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="d-flex align-items-center">
-                                    <span class="badge bg-primary rounded-circle me-3">2</span>
-                                    <small>Complete feedback forms</small>
-                                </div>
+                        </div>
+                        
+                        <div class="row g-2">
+                            <div class="col-12 col-sm-6">
+                                <a href="/" class="btn btn-primary w-100">
+                                    <i class="me-2">🏠</i>Go to Home Page
+                                </a>
                             </div>
-                            <div class="col-md-4">
-                                <div class="d-flex align-items-center">
-                                    <span class="badge bg-primary rounded-circle me-3">3</span>
-                                    <small>Return for analytics</small>
+                            <div class="col-12 col-sm-6">
+                                <a href="/student_feedback" class="btn btn-outline-primary w-100">
+                                    <i class="me-2">👨‍🎓</i>Student Form
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Upload CSV Files Section -->
+                        <div class="mt-4">
+                            <hr class="my-4">
+                            <h5 class="text-center mb-4">📤 Or Upload CSV Data</h5>
+                            <div class="row g-3">
+                                <!-- Student CSV Upload -->
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3">
+                                        <h6 class="fw-semibold">👨‍🎓 Upload Student Data</h6>
+                                        <form action="/admin/upload/students" method="POST" enctype="multipart/form-data">
+                                            <div class="mb-2">
+                                                <input type="file" class="form-control form-control-sm" name="csv_file" accept=".csv" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-success btn-sm w-100">
+                                                📤 Upload Student CSV
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- Teacher CSV Upload -->
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3">
+                                        <h6 class="fw-semibold">👩‍🏫 Upload Teacher Data</h6>
+                                        <form action="/admin/upload/teachers" method="POST" enctype="multipart/form-data">
+                                            <div class="mb-2">
+                                                <input type="file" class="form-control form-control-sm" name="csv_file" accept=".csv" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-warning btn-sm w-100">
+                                                📤 Upload Teacher CSV
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+       
+        
+        <!-- Upload Section - ALWAYS VISIBLE -->
+        <div class="row mb-4 mb-md-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-bottom-0 py-3 py-md-4">
+                        <h3 class="card-title mb-1">📤 Upload Data</h3>
+                        <p class="text-muted mb-0">Import feedback data from CSV files for bulk data entry</p>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="row g-3 g-md-4">
+                            <!-- Student Data Upload -->
+                            <div class="col-12 col-md-6">
+                                <div class="border rounded-3 p-3 p-md-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-success bg-opacity-10 rounded-circle p-2 me-3">
+                                            <i style="font-size: 1.2rem;">👨‍🎓</i>
+                                        </div>
+                                        <h5 class="mb-0 fw-semibold">Upload Student Data</h5>
+                                    </div>
+                                    <p class="text-muted mb-3 mb-md-4 small">Import student feedback from CSV file</p>
+                                    <form action="/admin/upload/students" method="POST" enctype="multipart/form-data" class="upload-form">
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control form-control-sm" name="csv_file" accept=".csv" required>
+                                            <small class="text-muted">CSV format with headers expected</small>
+                                        </div>
+                                        <button type="submit" class="btn btn-success btn-sm w-100">
+                                            <i class="me-2">📤</i>Upload Student CSV
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Teacher Data Upload -->
+                            <div class="col-12 col-md-6">
+                                <div class="border rounded-3 p-3 p-md-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-warning bg-opacity-10 rounded-circle p-2 me-3">
+                                            <i style="font-size: 1.2rem;">👩‍🏫</i>
+                                        </div>
+                                        <h5 class="mb-0 fw-semibold">Upload Teacher Data</h5>
+                                    </div>
+                                    <p class="text-muted mb-3 mb-md-4 small">Import teacher feedback from CSV file</p>
+                                    <form action="/admin/upload/teachers" method="POST" enctype="multipart/form-data" class="upload-form">
+                                        <div class="mb-3">
+                                            <input type="file" class="form-control form-control-sm" name="csv_file" accept=".csv" required>
+                                            <small class="text-muted">CSV format with headers expected</small>
+                                        </div>
+                                        <button type="submit" class="btn btn-warning btn-sm w-100">
+                                            <i class="me-2">📤</i>Upload Teacher CSV
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Upload Info -->
+                        <div class="row mt-3 mt-md-4">
+                            <div class="col-12">
+                                <div class="alert alert-success border-0 bg-success bg-opacity-10">
+                                    <div class="d-flex">
+                                        <div class="me-2 me-md-3">
+                                            <i style="font-size: 1.2rem;">📋</i>
+                                        </div>
+                                        <div>
+                                            <h6 class="alert-heading mb-2">CSV Upload Requirements</h6>
+                                            <ul class="mb-0 small">
+                                                <li><strong>Format:</strong> CSV file with proper headers (same as download format)</li>
+                                                <li><strong>Encoding:</strong> UTF-8 encoding recommended</li>
+                                                <li><strong>Size Limit:</strong> Maximum 10MB per file</li>
+                                                <li><strong>Headers:</strong> Must match exactly with download CSV headers</li>
+                                                <li><strong>Validation:</strong> Data will be validated before import</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="row mb-4 mb-md-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-bottom-0 py-3 py-md-4">
+                        <h3 class="card-title mb-1">📥 Download Data</h3>
+                        <p class="text-muted mb-0">Export feedback data for analysis and reporting</p>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <div class="row g-3 g-md-4">
+                            <!-- Student Data Downloads -->
+                            <div class="col-12 col-md-6">
+                                <div class="border rounded-3 p-3 p-md-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                            <i style="font-size: 1.2rem;">👨‍🎓</i>
+                                        </div>
+                                        <h5 class="mb-0 fw-semibold">Student Feedback Data</h5>
+                                    </div>
+                                    <p class="text-muted mb-3 mb-md-4 small">Download complete student responses including sentiment analysis</p>
+                                    <div class="d-grid gap-2">
+                                        <a href="/admin/download/students/csv" class="btn btn-outline-primary btn-sm">
+                                            <i class="me-2">📊</i>Download as CSV
+                                        </a>
+                                        <a href="/admin/download/students/json" class="btn btn-outline-primary btn-sm">
+                                            <i class="me-2">🔧</i>Download as JSON
+                                        </a>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <a href="/" class="btn btn-primary">
-                        <i class="me-2">🏠</i>Go to Home Page
-                    </a>
+                            <!-- Teacher Data Downloads -->
+                            <div class="col-12 col-md-6">
+                                <div class="border rounded-3 p-3 p-md-4 h-100">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-success bg-opacity-10 rounded-circle p-2 me-3">
+                                            <i style="font-size: 1.2rem;">👩‍🏫</i>
+                                        </div>
+                                        <h5 class="mb-0 fw-semibold">Teacher Feedback Data</h5>
+                                    </div>
+                                    <p class="text-muted mb-3 mb-md-4 small">Download complete teacher responses including sentiment analysis</p>
+                                    <div class="d-grid gap-2">
+                                        <a href="/admin/download/teachers/csv" class="btn btn-outline-success btn-sm">
+                                            <i class="me-2">📊</i>Download as CSV
+                                        </a>
+                                        <a href="/admin/download/teachers/json" class="btn btn-outline-success btn-sm">
+                                            <i class="me-2">🔧</i>Download as JSON
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Download Info -->
+                        <div class="row mt-3 mt-md-4">
+                            <div class="col-12">
+                                <div class="alert alert-info border-0 bg-info bg-opacity-10">
+                                    <div class="d-flex">
+                                        <div class="me-2 me-md-3">
+                                            <i style="font-size: 1.2rem;">ℹ️</i>
+                                        </div>
+                                        <div>
+                                            <h6 class="alert-heading mb-2">Download Information</h6>
+                                            <ul class="mb-0 small">
+                                                <li><strong>CSV Format:</strong> Spreadsheet-friendly format for analysis in Excel, Google Sheets, or statistical software</li>
+                                                <li><strong>JSON Format:</strong> Structured data format for developers and advanced analysis tools</li>
+                                                <li><strong>Includes:</strong> All responses, personal information, sentiment analysis results, and timestamps</li>
+                                                <li><strong>File Names:</strong> Automatically timestamped with download date and time</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="row g-3 g-md-4">
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-3 p-md-4">
+                        <div class="mb-3">
+                            <i style="font-size: clamp(1.5rem, 3vw, 2rem); color: #6c757d;">📝</i>
+                        </div>
+                        <h6 class="card-title mb-2">Collect More Data</h6>
+                        <p class="text-muted small mb-3">Direct participants to feedback forms</p>
+                        <a href="/" class="btn btn-outline-primary btn-sm w-100">View Forms</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-3 p-md-4">
+                        <div class="mb-3">
+                            <i style="font-size: clamp(1.5rem, 3vw, 2rem); color: #6c757d;">📊</i>
+                        </div>
+                        <h6 class="card-title mb-2">Current Session</h6>
+                        <p class="text-muted small mb-3">Total responses: {{ (student_count or 0) + (teacher_count or 0) }}</p>
+                        <button class="btn btn-outline-success btn-sm w-100" onclick="location.reload()">Refresh Data</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-3 p-md-4">
+                        <div class="mb-3">
+                            <i style="font-size: clamp(1.5rem, 3vw, 2rem); color: #6c757d;">🔒</i>
+                        </div>
+                        <h6 class="card-title mb-2">Secure Session</h6>
+                        <p class="text-muted small mb-3">Admin access authenticated</p>
+                        <a href="/admin/logout" class="btn btn-outline-secondary btn-sm w-100">Logout</a>
                 </div>
             </div>
         </div>
     </div>
    
-    
-</div>
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Dashboard Enhancement Script -->
+    <script>
+        // Dashboard enhancements
+        (function() {
+            'use strict';
+            
+            // Auto-refresh functionality
+            let refreshInterval;
+            
+            function startAutoRefresh() {
+                refreshInterval = setInterval(() => {
+                    if (document.visibilityState === 'visible') {
+                        location.reload();
+                    }
+                }, 300000); // Refresh every 5 minutes when tab is visible
+            }
+            
+                         // Start auto-refresh only if there's data
+             const studentCount = parseInt('{{ student_count or 0 }}');
+             const teacherCount = parseInt('{{ teacher_count or 0 }}');
+             
+             if (studentCount + teacherCount > 0) {
+                 startAutoRefresh();
+             }
+            
+            // Mobile-friendly chart handling
+            const chartImages = document.querySelectorAll('img[alt*="Chart"]');
+            chartImages.forEach(img => {
+                img.addEventListener('error', function() {
+                    console.log('Chart loading failed, showing fallback');
+                    this.parentElement.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100 text-muted"><div class="text-center"><i class="fs-1">📊</i><p class="mt-2 mb-0">Chart unavailable</p><small>Try refreshing or use desktop</small></div></div>';
+                });
+                
+                // Add loading timeout for mobile
+                setTimeout(() => {
+                    if (!img.complete && img.naturalHeight === 0) {
+                        img.dispatchEvent(new Event('error'));
+                    }
+                }, 3000);
+            });
+            
+            // Mobile detection and optimization
+            function isMobile() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
+            
+            if (isMobile()) {
+                console.log('Mobile device detected, optimizing for mobile');
+                document.body.classList.add('mobile-device');
+            }
+            
+            // Download link analytics
+            document.querySelectorAll('a[href*="/admin/download/"]').forEach(link => {
+                link.addEventListener('click', function() {
+                    // Could add download tracking here
+                    console.log('Download initiated:', this.href);
+                });
+            });
+            
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', () => {
+                if (refreshInterval) {
+                    clearInterval(refreshInterval);
+                }
+            });
+        })();
+    </script>
+    
+    <style>
+        /* Professional Chart Download Styling */
+        .chart-dropdown .btn {
+            transition: all 0.2s ease;
+            background: rgba(248, 249, 250, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .chart-dropdown .btn:hover {
+            background: rgba(13, 110, 253, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        }
+        
+        .chart-dropdown .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+        }
+        
+        .chart-dropdown .dropdown-item {
+            padding: 0.75rem 1.25rem;
+            color: #495057;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .chart-dropdown .dropdown-item:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #0d6efd;
+            transform: translateX(4px);
+        }
+        
+        .chart-dropdown .dropdown-item i {
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        
+        .chart-dropdown .dropdown-item:hover i {
+            opacity: 1;
+        }
+        
+        /* Enhanced card headers */
+        .card-title {
+            letter-spacing: -0.01em;
+        }
+        
+        .card-header .text-muted {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+    </style>
+    
 </body>
 </html> 
